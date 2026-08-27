@@ -30,12 +30,37 @@ const homeLocation = {
   href: '/',
 } satisfies DocumentLocation
 
+const aboutLocation = {
+  title: 'About',
+  href: '/about',
+} satisfies DocumentLocation
+
+const articlesLocation = {
+  title: 'Articles',
+  href: '/articles',
+} satisfies DocumentLocation
+
+const capabilitiesLocation = {
+  title: 'Capabilities',
+  href: '/capabilities',
+} satisfies DocumentLocation
+
+const personalProjectsLocation = {
+  title: 'Personal Projects',
+  href: '/personal-projects',
+} satisfies DocumentLocation
+
+const projectsLocation = {
+  title: 'Projects',
+  href: '/projects',
+} satisfies DocumentLocation
+
 // resolveHref() is a convenience function that resolves the URL
 // path for different document types and used in the presentation tool.
 function resolveHref(documentType?: string, slug?: string): string | undefined {
   switch (documentType) {
-    case 'post':
-      return slug ? `/posts/${slug}` : undefined
+    case 'article':
+      return slug ? `/articles/${slug}` : undefined
     case 'page':
       return slug ? `/${slug}` : undefined
     default:
@@ -47,7 +72,7 @@ function resolveHref(documentType?: string, slug?: string): string | undefined {
 // Main Sanity configuration
 export default defineConfig({
   name: 'default',
-  title: 'Sanity + Next.js Starter Template',
+  title: 'Lili Portfolio',
 
   projectId,
   dataset,
@@ -73,32 +98,39 @@ export default defineConfig({
             filter: `_type == "page" && slug.current == $slug || _id == $slug`,
           },
           {
-            route: '/posts/:slug',
-            filter: `_type == "post" && slug.current == $slug || _id == $slug`,
+            route: '/articles/:slug',
+            filter: `_type == "article" && slug.current == $slug || _id == $slug`,
           },
         ]),
         // Locations Resolver API allows you to define where data is being used in your application. https://www.sanity.io/docs/visual-editing/presentation-resolver-api#8d8bca7bfcd7
         locations: {
           settings: defineLocations({
-            locations: [homeLocation],
+            locations: [
+              homeLocation,
+              aboutLocation,
+              articlesLocation,
+              capabilitiesLocation,
+              personalProjectsLocation,
+              projectsLocation,
+            ],
             message: 'This document is used on all pages',
             tone: 'positive',
           }),
-          page: defineLocations({
-            select: {
-              name: 'name',
-              slug: 'slug.current',
-            },
-            resolve: (doc) => ({
-              locations: [
-                {
-                  title: doc?.name || 'Untitled',
-                  href: resolveHref('page', doc?.slug)!,
-                },
-              ],
-            }),
-          }),
-          post: defineLocations({
+          // page: defineLocations({
+          //   select: {
+          //     name: 'name',
+          //     slug: 'slug.current',
+          //   },
+          //   resolve: (doc) => ({
+          //     locations: [
+          //       {
+          //         title: doc?.name || 'Untitled',
+          //         href: resolveHref('page', doc?.slug)!,
+          //       },
+          //     ],
+          //   }),
+          // }),
+          article: defineLocations({
             select: {
               title: 'title',
               slug: 'slug.current',
@@ -107,7 +139,7 @@ export default defineConfig({
               locations: [
                 {
                   title: doc?.title || 'Untitled',
-                  href: resolveHref('post', doc?.slug)!,
+                  href: resolveHref('article', doc?.slug)!,
                 },
                 {
                   title: 'Home',

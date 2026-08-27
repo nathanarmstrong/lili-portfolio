@@ -1,4 +1,4 @@
-import {CogIcon} from '@sanity/icons'
+import {CogIcon, DocumentIcon} from '@sanity/icons'
 import type {StructureBuilder, StructureResolver} from 'sanity/structure'
 import pluralize from 'pluralize-esm'
 
@@ -8,12 +8,59 @@ import pluralize from 'pluralize-esm'
  * Learn more: https://www.sanity.io/docs/structure-builder-introduction
  */
 
-const DISABLED_TYPES = ['settings', 'assist.instruction.context']
+const DISABLED_TYPES = [
+  'settings',
+  'page',
+  'assist.instruction.context',
+  'homePage',
+  'capabilitiesPage',
+  'personalProjectsPage',
+  'projectsPage',
+  'articlesPage',
+  'aboutPage',
+  'articleTag',
+]
 
 export const structure: StructureResolver = (S: StructureBuilder) =>
   S.list()
     .title('Website Content')
     .items([
+      S.listItem()
+        .title('Pages')
+        .child(
+          S.list()
+            .title('Pages List')
+            .items([
+              S.listItem()
+                .title('Home')
+                .child(S.document().schemaType('homePage').documentId('homePage'))
+                .icon(DocumentIcon),
+              S.listItem()
+                .title('Capabilities')
+                .child(S.document().schemaType('capabilitiesPage').documentId('capabilitiesPage'))
+                .icon(DocumentIcon),
+              S.listItem()
+                .title('Personal Projects')
+                .child(
+                  S.document()
+                    .schemaType('personalProjectsPage')
+                    .documentId('personalProjectsPage'),
+                )
+                .icon(DocumentIcon),
+              S.listItem()
+                .title('Projects')
+                .child(S.document().schemaType('projectsPage').documentId('projectsPage'))
+                .icon(DocumentIcon),
+              S.listItem()
+                .title('Articles')
+                .child(S.document().schemaType('articlesPage').documentId('articlesPage'))
+                .icon(DocumentIcon),
+              S.listItem()
+                .title('About')
+                .child(S.document().schemaType('aboutPage').documentId('aboutPage'))
+                .icon(DocumentIcon),
+            ]),
+        ),
       ...S.documentTypeListItems()
         // Remove the "assist.instruction.context" and "settings" content  from the list of content types
         .filter((listItem: any) => !DISABLED_TYPES.includes(listItem.getId()))

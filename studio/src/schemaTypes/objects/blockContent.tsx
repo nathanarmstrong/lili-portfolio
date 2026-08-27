@@ -35,8 +35,7 @@ export const blockContent = defineType({
                 options: {
                   list: [
                     {title: 'URL', value: 'href'},
-                    {title: 'Page', value: 'page'},
-                    {title: 'Post', value: 'post'},
+                    {title: 'Article', value: 'article'},
                   ],
                   layout: 'radio',
                 },
@@ -56,31 +55,16 @@ export const blockContent = defineType({
                   }),
               }),
               defineField({
-                name: 'page',
-                title: 'Page',
+                name: 'article',
+                title: 'Article',
                 type: 'reference',
-                to: [{type: 'page'}],
-                hidden: ({parent}) => parent?.linkType !== 'page',
+                to: [{type: 'article'}],
+                hidden: ({parent}) => parent?.linkType !== 'article' && parent?.linkType != null,
                 validation: (Rule) =>
                   Rule.custom((value, context) => {
                     const parent = context.parent as Link
-                    if (parent?.linkType === 'page' && !value) {
-                      return 'Page reference is required when Link Type is Page'
-                    }
-                    return true
-                  }),
-              }),
-              defineField({
-                name: 'post',
-                title: 'Post',
-                type: 'reference',
-                to: [{type: 'post'}],
-                hidden: ({parent}) => parent?.linkType !== 'post',
-                validation: (Rule) =>
-                  Rule.custom((value, context) => {
-                    const parent = context.parent as Link
-                    if (parent?.linkType === 'post' && !value) {
-                      return 'Post reference is required when Link Type is Post'
+                    if (parent?.linkType === 'article' && !value) {
+                      return 'Article reference is required when Link Type is Article'
                     }
                     return true
                   }),
