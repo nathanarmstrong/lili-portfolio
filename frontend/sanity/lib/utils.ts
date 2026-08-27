@@ -11,7 +11,7 @@ const builder = createImageUrlBuilder({
 
 // Create an image URL builder using the client
 // Export a function that can be used to get image URLs
-function urlForImage(source: SanityImageSource) {
+export function urlForImage(source: SanityImageSource) {
   return builder.image(source)
 }
 
@@ -26,7 +26,7 @@ export function resolveOpenGraphImage(
   return {url, alt: (image as {alt?: string})?.alt || '', width, height}
 }
 
-// Depending on the type of link, we need to fetch the corresponding page, post, or URL.  Otherwise return null.
+// Depending on the type of link, we need to fetch the corresponding page, article, or URL.  Otherwise return null.
 export function linkResolver(link: Link | DereferencedLink | undefined) {
   if (!link) return null
 
@@ -42,9 +42,9 @@ export function linkResolver(link: Link | DereferencedLink | undefined) {
       if (link?.page && typeof link.page === 'string') {
         return `/${link.page}`
       }
-    case 'post':
-      if (link?.post && typeof link.post === 'string') {
-        return `/posts/${link.post}`
+    case 'article':
+      if (link?.article && typeof link.article === 'string') {
+        return `/articles/${link.article}`
       }
     default:
       return null

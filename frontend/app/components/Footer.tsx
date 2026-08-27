@@ -1,27 +1,49 @@
-export default function Footer() {
+import {SanityImage, SocialIconLinkedin, SocialIconInstagram} from '@/app/components'
+import type {Settings} from '@/sanity.types'
+
+export default function Footer({data}: {data: Settings['Footer']}) {
   return (
-    <footer className="bg-gray-50 relative">
-      <div className="absolute inset-0 bg-[url(/images/tile-grid-black.png)] bg-size-[17px] opacity-20 bg-position-[0_1]" />
-      <div className="container relative">
-        <div className="flex flex-col items-center py-28 lg:flex-row">
-          <h3 className="mb-10 text-center text-4xl font-mono leading-tight tracking-tighter lg:mb-0 lg:w-1/2 lg:pr-4 lg:text-left lg:text-2xl">
-            Built with Sanity + Next.js.
-          </h3>
-          <div className="flex flex-col gap-3 items-center justify-center lg:w-1/2 lg:flex-row lg:pl-4">
-            <a
-              href="https://github.com/sanity-io/sanity-template-nextjs-clean"
-              className="rounded-full flex gap-2 font-mono whitespace-nowrap items-center bg-black hover:bg-blue focus:bg-blue py-3 px-6 text-white transition-colors duration-200"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              View on GitHub
-            </a>
-            <a href="https://nextjs.org/docs" className="mx-3 hover:underline font-mono">
-              Read Next.js Documentation
-            </a>
+    <footer className="relative">
+      <section className="pb-6 pt-24 snap-end flex  gap-30 flex-col lg:flex-row">
+        <div className="">
+          {data?.icon && data.icon?.asset?._ref && (
+            <SanityImage
+              id={data.icon.asset._ref}
+              alt={'Footer icon'}
+              className="self-end flex"
+              height={90}
+              width={90}
+              // hotspot={data.icon?.asset?.hotspot}
+              mode="contain"
+            />
+          )}
+        </div>
+        <div className="flex flex-col gap-6 justify-between">
+          <div>
+            <p className="text-3xl font-light">{data?.footerText}</p>
+            <p className="text-3xl font-bold">{data?.footerEmail}</p>
+          </div>
+          {data?.footerLinks && (
+            <div className="flex flex-row gap-6">
+              {data.footerLinks.map(({link, type}, index) => (
+                <div
+                  className="flex border-white border-2 rounded-full bg-white p-2 group hover:bg-black transition-all duration-300 ease-in-out"
+                  key={index}
+                >
+                  {type === 'linkedin' && <SocialIconLinkedin />}
+                  {type === 'instagram' && <SocialIconInstagram />}
+                </div>
+              ))}
+            </div>
+          )}
+          <div className="flex">
+            <p>
+              © 2026 Lilianne Khuong. Designed by yours truly, pixel by pixel. Developed by Nathan
+              Armstrong.
+            </p>
           </div>
         </div>
-      </div>
+      </section>
     </footer>
   )
 }

@@ -43,9 +43,9 @@ export default function CustomPortableText({
     block: {
       h1: ({children, value}) => (
         // Add an anchor to the h1
-        <h1 className="group relative">
+        <h1 className="group relative text-4xl font-bold mb-4" id={value?._key}>
           {children}
-          <a
+          {/* <a
             href={`#${value?._key}`}
             className="absolute left-0 top-0 bottom-0 -ml-6 flex items-center opacity-0 group-hover:opacity-100 transition-opacity"
           >
@@ -63,15 +63,15 @@ export default function CustomPortableText({
                 d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
               />
             </svg>
-          </a>
+          </a> */}
         </h1>
       ),
       h2: ({children, value}) => {
         // Add an anchor to the h2
         return (
-          <h2 className="group relative">
+          <h2 className="group relative text-lg font-bold">
             {children}
-            <a
+            {/* <a
               href={`#${value?._key}`}
               className="absolute left-0 top-0 bottom-0 -ml-6 flex items-center opacity-0 group-hover:opacity-100 transition-opacity"
             >
@@ -89,7 +89,7 @@ export default function CustomPortableText({
                   d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                 />
               </svg>
-            </a>
+            </a> */}
           </h2>
         )
       },
@@ -99,10 +99,18 @@ export default function CustomPortableText({
         return <ResolvedLink link={link}>{children}</ResolvedLink>
       },
     },
+    listItem: {
+      bullet: ({children}) => {
+        return <li className="list-disc list-inside">{children}</li>
+      },
+    },
   }
 
+  console.log('CustomPortableText value:', value)
+  console.log('CustomPortableText components:', components)
+
   return (
-    <div className={`prose-a:text-brand prose dark:prose-invert ${className}`}>
+    <div className={`${className}`}>
       <PortableText components={components} value={value} />
     </div>
   )

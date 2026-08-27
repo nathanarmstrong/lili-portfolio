@@ -2,7 +2,7 @@ import './globals.css'
 
 import {SpeedInsights} from '@vercel/speed-insights/next'
 import type {Metadata} from 'next'
-import {Inter, IBM_Plex_Mono} from 'next/font/google'
+import {DM_Sans} from 'next/font/google'
 import {draftMode} from 'next/headers'
 import {toPlainText} from 'next-sanity'
 import {VisualEditing} from 'next-sanity/visual-editing'
@@ -47,48 +47,57 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description: toPlainText(description),
     openGraph: {
-      images: ogImage ? [ogImage] : [],
+      images: ogImage ? [ogImage] : undefined,
     },
   }
 }
 
-const inter = Inter({
-  variable: '--font-inter',
+const dmSans = DM_Sans({
+  variable: '--font-sans',
+  weight: ['100', '200', '300', '400', '500', '700'],
   subsets: ['latin'],
   display: 'swap',
 })
-
-const ibmPlexMono = IBM_Plex_Mono({
-  variable: '--font-ibm-plex-mono',
-  weight: ['400'],
-  subsets: ['latin'],
-  display: 'swap',
-})
-
 export default async function RootLayout({children}: LayoutProps<'/'>) {
+  const {data: settings} = await sanityFetch({
+    query: settingsQuery,
+    // Metadata should never contain stega
+    stega: false,
+  })
   const {isEnabled: isDraftMode} = await draftMode()
 
   return (
-    <html lang="en" className={`${inter.variable} ${ibmPlexMono.variable} bg-white text-black`}>
-      <body>
-        <section className="min-h-screen pt-24">
-          {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
-          <Toaster />
-          {isDraftMode && (
-            <>
-              <DraftModeToast />
-              {/*  Enable Visual Editing, only to be rendered when Draft Mode is enabled */}
-              <VisualEditing />
-            </>
-          )}
-          {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
-          <SanityLive onError={handleError} />
-          <Header />
-          <main className="">{children}</main>
-          <Footer />
-        </section>
-        <SpeedInsights />
-      </body>
+    <html
+      lang="en"
+      className={` ${dmSans.variable} bg-white text-black scroll-smooth md:scroll-auto snap-y snap-mandatory bg-black`}
+    >
+      {settings && (
+        <body className="bg-black text-white font-sans">
+          <section className="min-h-screen pt-24">
+            {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
+            <Toaster />
+            {isDraftMode && (
+              <>
+                <DraftModeToast />
+                {/*  Enable Visual Editing, only to be rendered when Draft Mode is enabled */}
+                <VisualEditing />
+              </>
+            )}
+            {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
+            <SanityLive onError={handleError} />
+            <Header data={settings} />
+            <main className="">
+              <div className="flex flex-col">
+                <div className="container">{children}</div>
+              </div>
+            </main>
+            <div className="container">
+              <Footer data={settings?.Footer} />
+            </div>
+          </section>
+          <SpeedInsights />
+        </body>
+      )}
     </html>
   )
 }

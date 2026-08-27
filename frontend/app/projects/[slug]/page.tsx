@@ -5,7 +5,7 @@ import {Suspense} from 'react'
 
 import PortableText from '@/app/components/PortableText'
 import {sanityFetch} from '@/sanity/lib/live'
-import {articlePagesSlugs, articleQuery} from '@/sanity/lib/queries'
+import {projectPagesSlugs, projectQuery} from '@/sanity/lib/queries'
 import {resolveOpenGraphImage} from '@/sanity/lib/utils'
 
 /**
@@ -14,7 +14,7 @@ import {resolveOpenGraphImage} from '@/sanity/lib/utils'
  */
 export async function generateStaticParams() {
   const {data} = await sanityFetch({
-    query: articlePagesSlugs,
+    query: projectPagesSlugs,
     // Use the published perspective in generateStaticParams
     perspective: 'published',
     stega: false,
@@ -27,33 +27,33 @@ export async function generateStaticParams() {
  * Learn more: https://nextjs.org/docs/app/api-reference/functions/generate-metadata#generatemetadata-function
  */
 export async function generateMetadata(
-  props: PageProps<'/posts/[slug]'>,
+  props: PageProps<'/projects/[slug]'>,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const params = await props.params
-  const {data: post} = await sanityFetch({
-    query: articleQuery,
+  const {data: project} = await sanityFetch({
+    query: projectQuery,
     params,
     // Metadata should never contain stega
     stega: false,
   })
   const previousImages = (await parent).openGraph?.images || []
-  const ogImage = resolveOpenGraphImage(post?.coverImage)
+  const ogImage = resolveOpenGraphImage(project?.coverImage)
 
   return {
-    title: post?.title,
-    description: post?.excerpt,
+    title: project?.title,
+    description: project?.excerpt,
     openGraph: {
       images: ogImage ? [ogImage, ...previousImages] : previousImages,
     },
   } satisfies Metadata
 }
 
-export default async function PostPage(props: PageProps<'/posts/[slug]'>) {
+export default async function ProjectPage(props: PageProps<'/projects/[slug]'>) {
   const params = await props.params
-  const [{data: post}] = await Promise.all([sanityFetch({query: articleQuery, params})])
+  const {data: project} = await sanityFetch({query: projectQuery, params})
 
-  if (!post?._id) {
+  if (!project?._id) {
     return notFound()
   }
 
@@ -64,13 +64,8 @@ export default async function PostPage(props: PageProps<'/posts/[slug]'>) {
           <div>
             <div className="pb-6 grid gap-6 mb-6 border-b border-gray-100">
               <div className="max-w-3xl flex flex-col gap-6">
-                <h1 className="text-4xl text-gray-900 sm:text-5xl lg:text-7xl">{post.title}</h1>
+                <h1 className="heading-bold">{project.title}</h1>
               </div>
-              {/* <div className="max-w-3xl flex gap-4 items-center">
-                {post.author && post.author.firstName && post.author.lastName && (
-                  <Avatar person={post.author} date={post.date} />
-                )}
-              </div> */}
             </div>
             <article className="gap-6 grid max-w-4xl">
               {/* <div className=""> */}
@@ -87,10 +82,10 @@ export default async function PostPage(props: PageProps<'/posts/[slug]'>) {
                   />
                 )}
               </div> */}
-              {post.content?.length && (
+              {project.content?.length && (
                 <PortableText
                   className="max-w-2xl prose-headings:font-medium prose-headings:tracking-tight"
-                  value={post.content as PortableTextBlock[]}
+                  value={project.content as PortableTextBlock[]}
                 />
               )}
             </article>
@@ -100,7 +95,7 @@ export default async function PostPage(props: PageProps<'/posts/[slug]'>) {
       <div className="border-t border-gray-100 bg-gray-50">
         <div className="container py-12 lg:py-24 grid gap-12">
           <aside>
-            <Suspense>{/* <MorePosts skip={post._id} limit={2} /> */}</Suspense>
+            <Suspense>{/* <MoreProjects skip={project._id} limit={2} /> */}</Suspense>
           </aside>
         </div>
       </div>

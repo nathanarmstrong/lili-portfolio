@@ -2,7 +2,11 @@ import {defineQuery} from 'next-sanity'
 
 export const settingsQuery = defineQuery(`*[_type == "settings"][0]`)
 
-const postFields = /* groq */ `
+const articleFields = /* groq */ `
+  ...,
+`
+
+const projectFields = /* groq */ `
   _id,
   "status": select(_originalId in path("drafts.**") => "draft", "published"),
   "title": coalesce(title, "Untitled"),
@@ -10,13 +14,21 @@ const postFields = /* groq */ `
   excerpt,
   coverImage,
   "date": coalesce(date, _updatedAt),
-  "author": author->{firstName, lastName, picture},
+  company,
+  coverImage,
+  overview,
+  projectScope,
+  service{
+   ...
+  },
+  date,
+  content,
 `
 
 const linkReference = /* groq */ `
   _type == "link" => {
     "page": page->slug.current,
-    "post": post->slug.current
+    "article": article->slug.current
   }
 `
 
@@ -26,6 +38,96 @@ const linkFields = /* groq */ `
       ${linkReference}
       }
 `
+const serviceFields = /* groq */ `
+  _id,
+  _type,
+  title,
+  description,
+  slug,
+  capabilities[]{
+    ...,
+    _type == "capability" => {
+      ...,
+      description[]{
+        ...,
+        markDefs[]{
+          ...,
+          ${linkReference}
+        }
+      }
+    },
+  },
+`
+
+export const getAboutPageQuery = defineQuery(`
+  *[_type == 'aboutPage'][0]{
+    _id,
+    _type,
+    title,
+    greeting,
+    personalStatement,
+    profileImage,
+    traits,
+    toolbox,
+    educationDevelopment
+  }
+`)
+
+export const getArticlesPageQuery = defineQuery(`
+  *[_type == 'articlesPage'][0]{
+    _id,
+    _type,
+    title,
+  }
+`)
+export const getCapabilitiesPageQuery = defineQuery(`
+  *[_type == 'capabilitiesPage'][0]{
+    _id,
+    _type,
+    title,
+    capabilities[]->{
+      _id,
+      _type,
+      title,
+      slug,
+      description,
+      icon
+    }
+  }
+`)
+
+export const getHomePageQuery = defineQuery(`
+  *[_type == 'homePage'][0]{
+    ...,
+    featuredProjects[]{
+      ...,
+      "project": project->{
+        _id,
+        _type,
+        title,
+        slug,
+      },
+    },
+    featuredServices[]{
+      ...,
+      service->{
+        _id,
+        _type,
+        title,
+        description,
+        slug,
+      },
+    },
+    featuredArticles[]->{
+    ${articleFields}
+    },
+  }
+`)
+export const getProjectsPageQuery = defineQuery(`
+  *[_type == 'projectsPage'][0]{
+    ...,
+  }
+`)
 
 export const getPageQuery = defineQuery(`
   *[_type == 'page' && slug.current == $slug][0]{
@@ -58,27 +160,27 @@ export const getPageQuery = defineQuery(`
 `)
 
 export const sitemapData = defineQuery(`
-  *[_type == "page" || _type == "post" && defined(slug.current)] | order(_type asc) {
+  *[_type == "page" || _type == "article" && defined(slug.current)] | order(_type asc) {
     "slug": slug.current,
     _type,
     _updatedAt,
   }
 `)
 
-export const allPostsQuery = defineQuery(`
-  *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {
-    ${postFields}
+export const allArticlesQuery = defineQuery(`
+  *[_type == "article" && defined(slug.current)] | order(date desc, _updatedAt desc) {
+    ${articleFields}
   }
 `)
 
-export const morePostsQuery = defineQuery(`
-  *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {
-    ${postFields}
+export const moreArticlesQuery = defineQuery(`
+  *[_type == "article" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {
+    ${articleFields}
   }
 `)
 
-export const postQuery = defineQuery(`
-  *[_type == "post" && slug.current == $slug] [0] {
+export const articleQuery = defineQuery(`
+  *[_type == "article" && slug.current == $slug] [0] {
     content[]{
     ...,
     markDefs[]{
@@ -86,16 +188,45 @@ export const postQuery = defineQuery(`
       ${linkReference}
     }
   },
-    ${postFields}
+    ${articleFields}
   }
 `)
 
-export const postPagesSlugs = defineQuery(`
-  *[_type == "post" && defined(slug.current)]
+export const articlePagesSlugs = defineQuery(`
+  *[_type == "article" && defined(slug.current)]
   {"slug": slug.current}
 `)
 
 export const pagesSlugs = defineQuery(`
   *[_type == "page" && defined(slug.current)]
   {"slug": slug.current}
+`)
+
+export const allProjectsQuery = defineQuery(`
+  *[_type == "project" && defined(slug.current)] | order(date desc, _updatedAt desc) {
+    ${projectFields}
+  }
+`)
+
+export const moreProjectsQuery = defineQuery(`
+  *[_type == "project" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {
+    ${projectFields}
+  }
+`)
+
+export const projectQuery = defineQuery(`
+  *[_type == "project" && slug.current == $slug] [0] {
+    ${projectFields}
+  }
+`)
+
+export const projectPagesSlugs = defineQuery(`
+  *[_type == "project" && defined(slug.current)]
+  {"slug": slug.current}
+`)
+
+export const allServicesQuery = defineQuery(`
+  *[_type == "service"] | order(date desc, _updatedAt desc) {
+   ${serviceFields}
+  }
 `)

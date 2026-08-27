@@ -6,14 +6,13 @@ export default {
   theme: {
     container: {
       center: true,
-      padding: '2rem',
     },
     extend: {
       boxShadow: {
         layer: '0 35px 60px -15px rgba(0, 0, 0, 0.3)',
       },
       colors: {
-        black: '#0d0e12',
+        black: '#000',
         white: '#fff',
         cyan: {
           50: '#e7fefe',
@@ -95,8 +94,7 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['var(--font-inter)'],
-        mono: ['var(--font-ibm-plex-mono)'],
+        sans: ['var(--font-sans)'],
       },
     },
   },

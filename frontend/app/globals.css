@@ -3,6 +3,9 @@
 @plugin "@tailwindcss/typography";
 
 @layer base {
+  html {
+    @apply scrollbar-thumb-red-50 scrollbar-track-white;
+  }
   h1,
   h2,
   h3,
@@ -11,11 +14,18 @@
   h6 {
     @apply font-medium tracking-tight;
   }
+  .heading-bold {
+    @apply text-[48px] leading-[56px] mb-4 text-white;
+  }
+  .section-header {
+    @apply text-[32px] leading-[40px] font-bold mb-4;
+  }
 }
 
 @utility container {
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0;
+  max-width: 93vw;
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -24,9 +34,9 @@
   --shadow-layer: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
 
   --color-framework: #000;
-  --color-black: #0b0b0b;
+  --color-black: #000;
   --color-white: #fff;
-  --color-brand: #f50;
+  --color-brand: #fff;
   --color-blue: #0052ff;
   --color-yellow: #cdea19;
   --color-gray-50: #f6f6f8;
@@ -41,5 +51,28 @@
   --color-gray-900: #1b1d27;
   --color-gray-950: #13141b;
 
+  /* have text default size and change when view width get bigger */
+
+  --text-xs: clamp(0.75rem, 0.875vw, 1.875rem);
+  --text-sm: clamp(0.875rem, 1vw, 1.75rem);
+  --text-md: clamp(1rem, 1.25vw, 2rem);
+  --text-lg: clamp(1.125rem, 1.5vw, 2.25rem);
+  --text-xl: clamp(1.25rem, 1.75vw, 2.5rem);
+  --text-2xl: clamp(1.5rem, 2vw, 3rem);
+  --text-3xl: clamp(1.875rem, 3vw, 3.75rem);
+  --text-4xl: clamp(2.25rem, 4vw, 4.5rem);
+  --text-5xl: clamp(3rem, 5vw, 6rem);
+
+  /* --text-sm: calc(0.875rem + 0.25vw);
+  --text-md: calc(1rem + 0.8vw);
+  --text-lg: calc(1.125rem + 0.8vw);
+  --text-xl: calc(1.25rem + 0.8vw);
+  --text-2xl: calc(1.5rem + 0.8vw);
+  --text-3xl: calc(1.875rem + 0.8vw);
+  --text-4xl: calc(2.25rem + 0.8vw);
+  --text-5xl: calc(3rem + 0.8vw); */
+
   --default-transition-duration: 250ms;
+
+  --vw: 100vw;
 }
