@@ -14,6 +14,9 @@
   h6 {
     @apply font-medium tracking-tight;
   }
+  .sectionContainer {
+    @apply flex flex-col snap-start min-h-screen pt-27 pb-27;
+  }
   .heading-bold {
     @apply text-[48px] leading-[56px] mb-4 text-white;
   }
@@ -24,8 +27,8 @@
 
 @utility container {
   margin: 0 auto;
-  padding: 0;
-  max-width: 93vw;
+  padding: 0 3rem;
+  max-width: 100%;
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -62,6 +65,7 @@
   --text-3xl: clamp(1.875rem, 3vw, 3.75rem);
   --text-4xl: clamp(2.25rem, 4vw, 4.5rem);
   --text-5xl: clamp(3rem, 5vw, 6rem);
+  --text-6xl: clamp(3.125rem, 5vw, 5.125rem);
 
   /* --text-sm: calc(0.875rem + 0.25vw);
   --text-md: calc(1rem + 0.8vw);

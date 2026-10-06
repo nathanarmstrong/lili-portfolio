@@ -48,7 +48,7 @@ export default async function CapabilitiesPage(props: PageProps<'/capabilities'>
 
   return (
     <>
-      <section className="min-h-screen pt-24 pb-24 snap-start">
+      <section className="sectionContainer">
         <div className="flex flex-col mb-6">
           <Suspense>
             {services?.map((service, index) => (

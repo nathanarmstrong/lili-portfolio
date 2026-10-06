@@ -4,7 +4,7 @@ import type {Settings} from '@/sanity.types'
 export default function Footer({data}: {data: Settings['Footer']}) {
   return (
     <footer className="relative">
-      <section className="pb-6 pt-24 snap-end flex  gap-30 flex-col lg:flex-row">
+      <section className="items-center md:items-start pb-6 pt-24 snap-end flex  gap-30 flex-col lg:flex-row">
         <div className="">
           {data?.icon && data.icon?.asset?._ref && (
             <SanityImage
@@ -18,7 +18,7 @@ export default function Footer({data}: {data: Settings['Footer']}) {
             />
           )}
         </div>
-        <div className="flex flex-col gap-6 justify-between">
+        <div className="flex flex-col h-[stretch] justify-between">
           <div>
             <p className="text-3xl font-light">{data?.footerText}</p>
             <p className="text-3xl font-bold">{data?.footerEmail}</p>

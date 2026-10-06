@@ -1,6 +1,7 @@
 import {Suspense} from 'react'
 import {Article} from '@/sanity.types'
 import type {PortableTextBlock} from '@portabletext/types'
+import FeaturedProjectList from '@/app/components/FeaturedProjectList'
 
 import {getHomePageQuery, settingsQuery} from '@/sanity/lib/queries'
 import {sanityFetch} from '@/sanity/lib/live'
@@ -19,9 +20,9 @@ export default async function Page() {
 
   return (
     <>
-      <section className="flex flex-col snap-start md:flex-row min-h-screen pt-24 pb-24 items-end">
+      <section className="sectionContainer md:flex-row items-end">
         <Suspense>
-          <div className="flex flex-col text-[62px] leading-[78px] flex-2">
+          <div className="flex flex-col text-6xl flex-2 md:max-w-[43%]">
             <h1 className=" font-bold">
               {homePageData?.banner?.heading || 'Welcome to my portfolio'}
             </h1>
@@ -34,7 +35,7 @@ export default async function Page() {
               <SanityImage
                 id={homePageData.banner.icon.asset._ref}
                 alt={''}
-                className="h-auto w-auto"
+                className="h-full w-auto"
                 height={350}
                 width={350}
                 hotspot={homePageData.banner.icon.hotspot}
@@ -44,13 +45,16 @@ export default async function Page() {
           </div>
         </Suspense>
       </section>
-      <section className="flex flex-col snap-start pt-24 pb-24 min-h-screen">
+      <section className="sectionContainer">
         <h2 className="section-header">Featured Projects</h2>
         <span className="w-full h-[0.5] bg-white" />
         <div className="flex flex-col gap-6 my-12" key="Test">
           <Suspense>
+            {homePageData?.featuredProjects && homePageData.featuredProjects.length > 0 && (
+              <FeaturedProjectList projects={homePageData?.featuredProjects} />
+            )}
             {/* Featured Projects Image */}
-            {homePageData?.featuredProjects &&
+            {/* {homePageData?.featuredProjects &&
               homePageData.featuredProjects.length > 0 &&
               homePageData.featuredProjects.map((fProject, index) => (
                 <Link key={index} href={`/projects/${fProject?.project?.slug?.current || ''}`}>
@@ -60,27 +64,27 @@ export default async function Page() {
                       backgroundImage: `url(${urlForImage(fProject?.image)?.url()})`,
                     }}
                   >
-                    {/* Render featured project details here */}
+                    Render featured project details here
                   </div>
                 </Link>
-              ))}
+              ))} */}
           </Suspense>
           <StyledButton color="primary" solid link="/projects" className="self-end">
             View All Projects
           </StyledButton>
         </div>
       </section>
-      <section className="flex flex-col snap-start gap-6 pt-24 pb-24 min-h-screen">
+      <section className="sectionContainer gap-6">
         <h2 className="section-header">Services</h2>
         <span className="w-full h-[0.5] bg-white" />
-        <div className="flex flex-row gap-6 my-12">
+        <div className="flex flex-col md:flex-row gap-20 md:gap-6 my-12">
           <Suspense>
             {/* list of all Featured Services */}
             {homePageData?.featuredServices &&
               homePageData.featuredServices.length > 0 &&
               homePageData.featuredServices.map((fService, index) => (
                 <div className="flex flex-col flex-1 gap-8" key={index}>
-                  <h3 className="text-6xl text-gray-900">0{index + 1}</h3>
+                  <h3 className="text-5xl text-gray-900">0{index + 1}</h3>
                   <div className="flex flex-col gap-4">
                     <p className="text-lg font-bold">{fService?.service?.title}</p>
                     <PortableText
@@ -92,11 +96,11 @@ export default async function Page() {
               ))}
           </Suspense>
         </div>
-        <StyledButton color="primary" solid link="/services" className="self-end">
+        <StyledButton color="primary" solid link="/capabilities" className="self-end">
           View All Services
         </StyledButton>
       </section>
-      <section className="flex flex-col snap-start pt-24 pb-24 min-h-screen">
+      <section className="sectionContainer">
         <h2 className="section-header">Articles</h2>
         <span className="w-full h-[0.5] bg-white" />
         <div className="flex flex-col gap-6 my-12">

@@ -18,7 +18,7 @@ export default function ArticleCard({article}: {article: Article}) {
           <StyledButton
             color="primary"
             onClick={() => setIsModalOpen(true)}
-            className="flex justify-between items-center max-w-[110px] min-w-[110px] group-hover:max-w-full group-hover:min-w-full transition-all duration-500 relative"
+            className="flex justify-between items-center max-w-[110px] min-w-[110px] group-hover:max-w-full group-hover:min-w-full transition-all duration-500 relative cursor-pointer"
           >
             Read More
             <span className="ml-2 text-white group-hover:max-w-full transition-all duration-500 absolute right-0 top-1/2 transform -translate-y-1/2">

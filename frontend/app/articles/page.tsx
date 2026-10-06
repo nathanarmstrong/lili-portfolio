@@ -46,7 +46,7 @@ export default async function ArticlesPage(props: PageProps<'/articles'>) {
 
   return (
     <>
-      <section className="flex flex-row gap-6 mb-6 border-gray-100">
+      <section className="sectionContainer">
         {/* Side Nav For Filter Topics */}
         <div className="flex flex-col basis-1/4 gap-6 mb-6 border-gray-100"></div>
         {/* List OF all Filtered Articles */}

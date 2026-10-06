@@ -7,6 +7,7 @@ import ServiceList from './ServiceList'
 import StyledButton from './Button'
 import SanityImage from './SanityImage'
 import ProjectModal from './Modal/ProjectModal'
+import ProjectCard from './ProjectCard'
 
 export default function ProjectsList({
   projects,
@@ -45,24 +46,21 @@ export default function ProjectsList({
   return (
     <>
       <div className="">
-        <div className="my-12 lg:my-24 grid gap-12">
-          <div>
-            <div className="pb-6 pt-20 grid gap-6 mb-6">
-              <div className="flex flex-row gap-6 justify-between items-center">
-                <h1 className="heading-bold">Projects</h1>
-                <div className="flex gap-4">
-                  {serviceList.map((sservice) => (
-                    <ServiceList
-                      filter={(serviceId) => {
-                        setActiveService(serviceId)
-                      }}
-                      activeService={activeService}
-                      setActiveService={setActiveService}
-                      service={sservice}
-                    />
-                  ))}
-                </div>
-              </div>
+        <div className="pb-6 grid gap-6 mb-6">
+          <div className="flex flex-row gap-6 justify-between items-center">
+            <h1 className="heading-bold">Projects</h1>
+            <div className="flex gap-4">
+              {serviceList.map((sservice) => (
+                <ServiceList
+                  key={sservice._id}
+                  filter={(serviceId) => {
+                    setActiveService(serviceId)
+                  }}
+                  activeService={activeService}
+                  setActiveService={setActiveService}
+                  service={sservice}
+                />
+              ))}
             </div>
           </div>
         </div>
@@ -72,26 +70,18 @@ export default function ProjectsList({
           <Suspense>
             {/* <MorePosts skip={post._id} limit={2} /> */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {projectList.map((project) => (
-                <StyledButton
-                  key={project._id}
-                  // link={`/projects/${project.slug}`}
-                  onClick={() => {
-                    setActiveProject(project)
-                  }}
-                  className="mb-6 flex"
-                >
-                  <div className="mb-6 flex">
-                    {project.coverImage?.asset && (
-                      <SanityImage
-                        id={project.coverImage.asset._ref}
-                        alt={project.coverImage.alt || 'Project Image'}
-                        className="h-auto w-full"
-                      />
-                    )}
-                  </div>
-                </StyledButton>
-              ))}
+              {projectList.map(
+                (project) =>
+                  project.coverImage && (
+                    <ProjectCard
+                      key={project._id}
+                      callBack={() => {
+                        setActiveProject(project)
+                      }}
+                      project={project}
+                    />
+                  ),
+              )}
             </div>
           </Suspense>
         </aside>

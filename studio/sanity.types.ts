@@ -433,6 +433,14 @@ export type Settings = {
   _updatedAt: string
   _rev: string
   title: string
+  logo?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt: string
+    _type: 'image'
+  }
   Footer?: {
     footerText?: string
     footerEmail?: string

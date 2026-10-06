@@ -1,6 +1,5 @@
 'use client'
 import {type PortableTextBlock} from 'next-sanity'
-import {Suspense} from 'react'
 
 import PortableText from '@/app/components/PortableText'
 import {Project} from '@/sanity.types'

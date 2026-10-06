@@ -24,6 +24,24 @@ export const settings = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'logo',
+      description: 'This field is the logo of your blog.',
+      title: 'Logo',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+      fields: [
+        defineField({
+          name: 'alt',
+          description: 'Important for accessibility and SEO.',
+          title: 'Alternative text',
+          type: 'string',
+          validation: (rule) => rule.required(),
+        }),
+      ],
+    }),
+    defineField({
       name: 'Footer',
       description: 'This field is the footer of your blog.',
       title: 'Footer',

@@ -55,9 +55,8 @@ export default async function ProjectsPage(props: PageProps<'/projects/[slug]'>)
   ])
 
   return (
-    <section className="min-h-screen pt-24 pb-24 snap-start">
+    <section className="sectionContainer">
       <ProjectsList
-        key={'projectList'}
         projects={projects as unknown as Project[]}
         services={services as unknown as Service[]}
       />

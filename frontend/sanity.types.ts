@@ -433,6 +433,14 @@ export type Settings = {
   _updatedAt: string
   _rev: string
   title: string
+  logo?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt: string
+    _type: 'image'
+  }
   Footer?: {
     footerText?: string
     footerEmail?: string
@@ -819,6 +827,14 @@ export type SettingsQueryResult = {
   _updatedAt: string
   _rev: string
   title: string
+  logo?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt: string
+    _type: 'image'
+  }
   Footer?: {
     footerText?: string
     footerEmail?: string
@@ -949,7 +965,7 @@ export type GetCapabilitiesPageQueryResult = {
 
 // Source: sanity/lib/queries.ts
 // Variable: getHomePageQuery
-// Query: *[_type == 'homePage'][0]{    ...,    featuredProjects[]{      ...,      "project": project->{        _id,        _type,        title,        slug,      },    },    featuredServices[]{      ...,      service->{        _id,        _type,        title,        description,        slug,      },    },    featuredArticles[]->{      ...,    },  }
+// Query: *[_type == 'homePage'][0]{    ...,    featuredProjects[]{      ...,      "project": project -> {        company,        overview,        title,        ...,      }    },    featuredServices[]{      ...,      service->{        _id,        _type,        title,        description,        slug,      },    },    featuredArticles[]->{      ...,    },  }
 export type GetHomePageQueryResult = {
   _id: string
   _type: 'homePage'
@@ -960,10 +976,27 @@ export type GetHomePageQueryResult = {
   banner?: Banner
   featuredProjects: Array<{
     project: {
+      company: string
+      overview?: string
+      title: string
       _id: string
       _type: 'project'
-      title: string
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
       slug: Slug
+      coverImage?: {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        alt?: string
+        _type: 'image'
+      }
+      projectScope?: Array<string>
+      service?: ServiceReference
+      date?: string
+      content?: BlockContentProjects
     }
     image: {
       asset?: SanityImageAssetReference
@@ -1334,7 +1367,7 @@ declare module '@sanity/client' {
     "\n  *[_type == 'aboutPage'][0]{\n    _id,\n    _type,\n    title,\n    greeting,\n    personalStatement,\n    profileImage,\n    traits,\n    toolbox,\n    educationDevelopment\n  }\n": GetAboutPageQueryResult
     "\n  *[_type == 'articlesPage'][0]{\n    _id,\n    _type,\n    title,\n  }\n": GetArticlesPageQueryResult
     "\n  *[_type == 'capabilitiesPage'][0]{\n    _id,\n    _type,\n    title,\n    capabilities[]->{\n      _id,\n      _type,\n      title,\n      slug,\n      description,\n      icon\n    }\n  }\n": GetCapabilitiesPageQueryResult
-    '\n  *[_type == \'homePage\'][0]{\n    ...,\n    featuredProjects[]{\n      ...,\n      "project": project->{\n        _id,\n        _type,\n        title,\n        slug,\n      },\n    },\n    featuredServices[]{\n      ...,\n      service->{\n        _id,\n        _type,\n        title,\n        description,\n        slug,\n      },\n    },\n    featuredArticles[]->{\n    \n  ...,\n\n    },\n  }\n': GetHomePageQueryResult
+    '\n  *[_type == \'homePage\'][0]{\n    ...,\n    featuredProjects[]{\n      ...,\n      "project": project -> {\n        company,\n        overview,\n        title,\n        ...,\n      }\n    },\n    featuredServices[]{\n      ...,\n      service->{\n        _id,\n        _type,\n        title,\n        description,\n        slug,\n      },\n    },\n    featuredArticles[]->{\n    \n  ...,\n\n    },\n  }\n': GetHomePageQueryResult
     "\n  *[_type == 'projectsPage'][0]{\n    ...,\n  }\n": GetProjectsPageQueryResult
     '\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "callToAction" => {\n        ...,\n        button {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "article": article->slug.current\n  }\n\n      }\n\n        }\n      },\n      _type == "infoSection" => {\n        content[]{\n          ...,\n          markDefs[]{\n            ...,\n            \n  _type == "link" => {\n    "page": page->slug.current,\n    "article": article->slug.current\n  }\n\n          }\n        }\n      },\n    },\n  }\n': GetPageQueryResult
     '\n  *[_type == "page" || _type == "article" && defined(slug.current)] | order(_type asc) {\n    "slug": slug.current,\n    _type,\n    _updatedAt,\n  }\n': SitemapDataResult

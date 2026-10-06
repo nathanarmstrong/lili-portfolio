@@ -73,28 +73,28 @@ export default async function RootLayout({children}: LayoutProps<'/'>) {
     >
       {settings && (
         <body className="bg-black text-white font-sans">
-          <section className="min-h-screen pt-24">
-            {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
-            <Toaster />
-            {isDraftMode && (
-              <>
-                <DraftModeToast />
-                {/*  Enable Visual Editing, only to be rendered when Draft Mode is enabled */}
-                <VisualEditing />
-              </>
-            )}
-            {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
-            <SanityLive onError={handleError} />
-            <Header data={settings} />
-            <main className="">
-              <div className="flex flex-col">
-                <div className="container">{children}</div>
-              </div>
-            </main>
-            <div className="container">
-              <Footer data={settings?.Footer} />
+          {/* <section className="min-h-screen pt-24"> */}
+          {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
+          <Toaster />
+          {isDraftMode && (
+            <>
+              <DraftModeToast />
+              {/*  Enable Visual Editing, only to be rendered when Draft Mode is enabled */}
+              <VisualEditing />
+            </>
+          )}
+          {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
+          <SanityLive onError={handleError} />
+          <Header data={settings} />
+          <main className="">
+            <div className="flex flex-col">
+              <div className="container">{children}</div>
             </div>
-          </section>
+          </main>
+          <div className="container">
+            <Footer data={settings?.Footer} />
+          </div>
+          {/* </section> */}
           <SpeedInsights />
         </body>
       )}

@@ -101,12 +101,12 @@ export const getHomePageQuery = defineQuery(`
     ...,
     featuredProjects[]{
       ...,
-      "project": project->{
-        _id,
-        _type,
+      "project": project -> {
+        company,
+        overview,
         title,
-        slug,
-      },
+        ...,
+      }
     },
     featuredServices[]{
       ...,

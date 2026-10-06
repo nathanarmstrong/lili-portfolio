@@ -51,12 +51,12 @@ export default async function Page(props: PageProps<'/[slug]'>) {
   }
 
   return (
-    <div className="">
+    <>
       <Head>
         <title>{page.title}</title>
       </Head>
       {/* GREETING */}
-      <section className="pb-6 pt-24 snap-start min-h-screen">
+      <section className="sectionContainer">
         <div className="flex xl:flex-row flex-col min-h-[93vh]">
           <div className="xl:text-left basis-2/3 flex flex-col xl:justify-between py-12 pr-10">
             {page.greeting && (
@@ -88,9 +88,9 @@ export default async function Page(props: PageProps<'/[slug]'>) {
         </div>
       </section>
       {/* TRAITS */}
-      <section className="pb-6 pt-24 snap-start min-h-screen items-center flex">
+      <section className="sectionContainer items-center">
         {page.traits && (
-          <div className="flex flex-row gap-24 w-full">
+          <div className="flex md:flex-row flex-col gap-24 w-full">
             {page.traits.map((trait, index) => (
               <div key={index} className="flex max-w-[730px] flex-col gap-12">
                 {trait.icon?.asset?._ref && (
@@ -114,12 +114,12 @@ export default async function Page(props: PageProps<'/[slug]'>) {
         )}
       </section>
       {/* TOOLBOX */}
-      <section className="pb-6 pt-24 snap-start min-h-screen items-center flex ">
+      <section className="sectionContainer items-center pt-27">
         {page.toolbox && (
-          <div className="flex flex-row gap-6 justify-between w-full">
+          <div className="flex md:flex-row flex-col gap-6 justify-between w-full">
             <div className="flex flex-col gap-24">
               <h3 className="text-white text-xl font-bold">Toolbox</h3>
-              <div className="grid grid-cols-2 gap-x-60 gap-y-6">
+              <div className="grid md:grid-cols-2 gap-x-60 gap-y-6">
                 {page.toolbox.tools &&
                   page.toolbox.tools.map((tool: {title: string; text: string}, index: number) => (
                     <div key={index} className="flex flex-col gap-1">
@@ -129,12 +129,12 @@ export default async function Page(props: PageProps<'/[slug]'>) {
                   ))}
               </div>
             </div>
-            <div>
+            <div className="flex flex-col gap-6 md:max-w-[30vw]">
               {page.toolbox?.icon?.asset?._ref && (
                 <SanityImage
                   id={page.toolbox.icon.asset._ref}
                   alt={'Toolbox image'}
-                  className="h-[calc(50vh+70px)] w-auto mt-[-70px]"
+                  className="h-[calc(50vh+70px)] w-auto md:mt-[-70px] "
                   // height={350}
                   // width={350}
                   // hotspot={page.toolbox.icon?.asset?.hotspot}
@@ -146,7 +146,7 @@ export default async function Page(props: PageProps<'/[slug]'>) {
         )}
       </section>
       {/* Education and Development */}
-      <section className="pb-6 pt-24 snap-start min-h-screen items-center flex">
+      <section className="sectionContainer items-center">
         {page.educationDevelopment && (
           <div className="flex flex-col gap-12 w-full">
             <h3 className="text-white text-xl font-bold">Education and Development</h3>
@@ -162,6 +162,6 @@ export default async function Page(props: PageProps<'/[slug]'>) {
           </div>
         )}
       </section>
-    </div>
+    </>
   )
 }
