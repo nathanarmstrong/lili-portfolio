@@ -2,7 +2,6 @@ import type {Metadata} from 'next'
 import Head from 'next/head'
 import {PortableTextBlock} from 'next-sanity'
 
-import PageBuilderPage from '@/app/components/PageBuilder'
 import {sanityFetch} from '@/sanity/lib/live'
 import {getAboutPageQuery, pagesSlugs} from '@/sanity/lib/queries'
 import {GetPageQueryResult} from '@/sanity.types'

@@ -1088,7 +1088,7 @@ export type GetProjectsPageQueryResult = {
 
 // Source: sanity/lib/queries.ts
 // Variable: getPageQuery
-// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    name,    slug,    heading,    subheading,    "pageBuilder": pageBuilder[]{      ...,      _type == "callToAction" => {        ...,        button {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "article": article->slug.current  }      }        }      },      _type == "infoSection" => {        content[]{          ...,          markDefs[]{            ...,              _type == "link" => {    "page": page->slug.current,    "article": article->slug.current  }          }        }      },    },  }
+// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    name,    slug,    heading,    subheading,  }
 export type GetPageQueryResult = null
 
 // Source: sanity/lib/queries.ts
@@ -1369,7 +1369,7 @@ declare module '@sanity/client' {
     "\n  *[_type == 'capabilitiesPage'][0]{\n    _id,\n    _type,\n    title,\n    capabilities[]->{\n      _id,\n      _type,\n      title,\n      slug,\n      description,\n      icon\n    }\n  }\n": GetCapabilitiesPageQueryResult
     '\n  *[_type == \'homePage\'][0]{\n    ...,\n    featuredProjects[]{\n      ...,\n      "project": project -> {\n        company,\n        overview,\n        title,\n        ...,\n      }\n    },\n    featuredServices[]{\n      ...,\n      service->{\n        _id,\n        _type,\n        title,\n        description,\n        slug,\n      },\n    },\n    featuredArticles[]->{\n    \n  ...,\n\n    },\n  }\n': GetHomePageQueryResult
     "\n  *[_type == 'projectsPage'][0]{\n    ...,\n  }\n": GetProjectsPageQueryResult
-    '\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "callToAction" => {\n        ...,\n        button {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "article": article->slug.current\n  }\n\n      }\n\n        }\n      },\n      _type == "infoSection" => {\n        content[]{\n          ...,\n          markDefs[]{\n            ...,\n            \n  _type == "link" => {\n    "page": page->slug.current,\n    "article": article->slug.current\n  }\n\n          }\n        }\n      },\n    },\n  }\n': GetPageQueryResult
+    "\n  *[_type == 'page' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n  }\n": GetPageQueryResult
     '\n  *[_type == "page" || _type == "article" && defined(slug.current)] | order(_type asc) {\n    "slug": slug.current,\n    _type,\n    _updatedAt,\n  }\n': SitemapDataResult
     '\n  *[_type == "article" && defined(slug.current)] | order(date desc, _updatedAt desc) {\n    \n  ...,\n\n  }\n': AllArticlesQueryResult
     '\n  *[_type == "article" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  ...,\n\n  }\n': MoreArticlesQueryResult

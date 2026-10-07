@@ -17,7 +17,6 @@ export default function ProjectModal({
     return null
   }
 
-  console.log('ProjectModal project:', project)
   return (
     <ModalWrapper isOpen={!!project} onClose={onClose}>
       <div className="container">

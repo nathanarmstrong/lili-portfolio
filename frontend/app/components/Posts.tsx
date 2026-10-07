@@ -9,7 +9,7 @@ import Avatar from '@/app/components/Avatar'
 import {dataAttr} from '@/sanity/lib/utils'
 
 const Post = ({post}: {post: AllArticlesQueryResult[number]}) => {
-  const {_id, title, slug, excerpt, date, author} = post
+  const {_id, title, slug, date} = post
 
   return (
     <article
@@ -23,7 +23,7 @@ const Post = ({post}: {post: AllArticlesQueryResult[number]}) => {
       <div>
         <h3 className="text-2xl mb-4">{title}</h3>
 
-        <p className="line-clamp-3 text-sm leading-6 text-gray-600 max-w-[70ch]">{excerpt}</p>
+        {/* <p className="line-clamp-3 text-sm leading-6 text-gray-600 max-w-[70ch]">{excerpt}</p> */}
       </div>
       <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-100">
         <time className="text-gray-500 text-xs" dateTime={date}>
